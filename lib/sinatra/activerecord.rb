@@ -52,7 +52,10 @@ module Sinatra
       app.helpers ActiveRecordHelper
 
       # re-connect if database connection dropped
-      app.before { ActiveRecord::Base.verify_active_connections! }
+      # NOTE: Diego - ActiveRecord::Base.verify_active_connections! has been depricated as of 2.1.0
+      #       reap in ActiveRecord::ConnectionAdapters::ConnectionPool should check active
+      #       connections at a specified interval
+      #app.before { ActiveRecord::Base.verify_active_connections! }
       app.after  { ActiveRecord::Base.clear_active_connections! }
     end
 
